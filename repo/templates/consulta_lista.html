@@ -1,0 +1,205 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+
+    <title>Consulta</title>
+</head>
+
+<body>
+    <!--<a href="/addlote">Lote</a>   -->
+    <main class="right">
+        <!-- <a type="button" class="btn btn-danger" href="/sair" (sair)>Usuário: {{request.user}} - Sair</a> -->
+    </main>
+    <h5 class="titulo">{{mercado.fantasia}}
+        <a class="sair" value="sair" href="/">{{sair}}</a>
+    </h5>
+    <div class="container">
+        <!-- <a type="button" class="btn btn-primary" href="/add1">add xml</a> -->
+
+        <div class="centrodiv">
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#xmladd1">Adicionar NFC XML</button>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#avulsoAdd2">Adicionar avulso</button>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#FOTOadd3">Adicionar Foto NFC</button>
+
+            <!-- <a type="button" class="btn btn-primary" href="qrcode">Leitor de QrCode</a> -->
+        </div>
+
+        <!-- Modal adicionando #xmladd1 -->
+        <div class="modal fade" id="xmladd1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Adicionar XML da Nota Fiscal</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="post" action="/add1/" enctype="multipart/form-data">{% csrf_token %}
+                        <div class="modal-body">
+                            <!-- COMPONENT START -->
+                            <div class="form-group">
+                                <div class="input-group" name="Fichier1">
+                                    <div>
+                                        <input type="file" accept=".xml" class="form-control" id="myfile" name="myfile">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default btn-choose" type="button"></button>
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- COMPONENT END -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                    <button type="submit" class="btn btn-primary">Enviar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="modal-footer centrodiv">
+                        <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exemploXML">Exemplo Download XML</button>
+                    </div>
+                    <div class="modal-footer"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal adicionando #avulsoAdd2 -->
+        <div class="modal fade" id="avulsoAdd2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Adicionar Avulso</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form method="post" action="/add2/" enctype="multipart/form-data">{% csrf_token %}
+                        <div class="modal-body">
+                            <p>Dados do Mercado</p>
+                            <input class="form-control form-control-sm" name="nomeM" type="text" placeholder="Nome do Mercado" required>
+                            <input class="form-control form-control-sm" name="cnpj" type="text" placeholder="CNPJ - Opcional">
+                            <input class="form-control form-control-sm" name="cidade" type="text" placeholder="Cidade" required>
+                            <input class="form-control form-control-sm" name="estado" type="text" placeholder="Estado" required>
+                            <input class="form-control form-control-sm" name="endereco" type="text" placeholder="Endereço - Opcional">
+                            <br>
+                            <p>Dados da compra</p>
+                            <input class="form-control form-control-sm" name="nomeP" type="text" placeholder="Nome do Produto">
+                            <input class="form-control form-control-sm" name="preco" type="text" placeholder="Valor do Produto ( R$ 0,00 )">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            <button type="submit" class="btn btn-primary">Concluir</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal adicionando #FOTO Add3 -->
+    <div class="modal fade" id="FOTOadd3" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Adicionar Foto do Qr Code da NFC</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" action="/add3/" enctype="multipart/form-data">{% csrf_token %}
+                    <div class="modal-body">
+                        <!-- COMPONENT START -->
+                        <div class="form-group">
+                            <div class="input-group" name="Fichier1">
+                                <div>
+                                    <input type="file" accept=".jpeg" class="form-control" id="myfile" name="myfile">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default btn-choose" type="button"></button>
+                                    </span>
+                                </div>
+                            </div>
+                            <!-- COMPONENT END -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                <button type="submit" class="btn btn-primary">Enviar</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="modal-footer centrodiv">
+                    <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exemploXML">Exemplo Download XML</button>
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal adicionando #EXEMPLO DE BAIXAR XML -->
+    <div class="modal fade" id="exemploXML" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Exemplo de Download do XML NFC-e</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body centrodiv">
+                    <!-- <video width="320" height="240" controls>
+                        <source src="{% static 'exemploXML.mp4' %}" autostart="true"  type="video/mp4" frameborder="0">
+                    </video> -->
+                    <img src="{% static 'exemploXML.gif' %}" width="100%" height="100%">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <main class="lista">
+
+        <div class="col-md-6 col-md-offset-2">
+            <form method="GET">
+                <div class="input-group">
+                    <button class="input-group-text" id="inputGroup-sizing-default">Pesquisar</button>
+                    <input type="text" placeholder="{{pesquisa}}" name="search" id="search" class=" form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default ">
+                </div>
+            </form>
+            <label>{{contador}} Produto(s)</label>
+        </div>
+
+        <br>
+
+        <div class="col-md-12 col-md-offset-2">
+
+            <div>
+                {% for produto in prods %}
+                <div class="card" style="width: auto;">
+                    <div class="card-body">
+                        <h5 class="card-header">R$ {{produto.preco}} - {{ produto.nome }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <b>Nome Fantasia:</b> {{ produto.nota.mercado.fantasia }}
+                        <br> <b>Razão Social:</b> <a href="/mercado/{{produto.nota.mercado.id}}">{{ produto.nota.mercado.nome }}</a>
+                        <br> <b>Endereço:</b> {{ produto.nota.mercado.endereco }}
+                        <br> <b>Data da Compra:</b> {{ produto.nota.dataCompra }}
+                        <!-- <br> <b>Data:</b> {{ produto.data }} -->
+                        <!--<br> <b>Data:</b> {{ produto.nota.publicacao }} -->
+                    </div>
+                </div>
+                <br> {% endfor %}
+            </div>
+        </div>
+    </main>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{% static 'base.js' %}"></script>
+</body>
+
+</html>
